@@ -12,10 +12,10 @@ import {
   startFetching,
   successFetching,
 } from "../loading/loading.slice";
-import { fetchCats, fetchCatsSuccess } from "./tvSeries.slice";
+import { fetchTvSeries, fetchTvSeriesSuccess } from "./tvSeries.slice";
 
-export function* onFetchCats() {
-  yield put(startFetching(fetchCats.type));
+export function* onFetchTvSeries() {
+  yield put(startFetching(fetchTvSeries.type));
 
   try {
     const res: SagaReturnType<typeof getTvSeriesData> = yield getTvSeriesData();
@@ -25,23 +25,23 @@ export function* onFetchCats() {
     // const cats = res.data.map((cat: any) => { return cat.name });
     //const cats = res.data;
 
-    const cats = res.data['tv-series'];
-    console.log("breeds is ", cats['tv-series']);
+    const resTvSeries = res.data['tv-series'];
+    console.log("breeds resTvSeries is ", resTvSeries['tv-series']);
     //['prop-3']
 
-    yield put(fetchCatsSuccess(cats));
-    yield put(successFetching(fetchCats.type));
+    yield put(fetchTvSeriesSuccess(resTvSeries));
+    yield put(successFetching(fetchTvSeries.type));
   } catch (error: any) {
     yield put(
-      failedFetching({ name: fetchCats.type, error: error?.message as string })
+      failedFetching({ name: fetchTvSeries.type, error: error?.message as string })
     );
   }
 }
 
-export function* onFetchCatsStart() {
-  yield takeLatest(fetchCats.type, onFetchCats);
+export function* onFetchTvSeriesStart() {
+  yield takeLatest(fetchTvSeries.type, onFetchTvSeries);
 }
 
-export default function* catsSaga() {
-  yield all([call(onFetchCatsStart)]);
+export default function* tvSeriesSaga() {
+  yield all([call(onFetchTvSeriesStart)]);
 }

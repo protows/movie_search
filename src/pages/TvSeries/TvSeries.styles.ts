@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: theme.palette.text.primary,
     textTransform: "uppercase",
+    marginTop: theme.spacing(2),
 
     "&:hover": {
       color: theme.palette.primary.main,
@@ -29,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     height: 48,
     padding: '0 30px',
+  },
+  pagination: {
+    marginTop: theme.spacing(2),
   },
 
   // li: {

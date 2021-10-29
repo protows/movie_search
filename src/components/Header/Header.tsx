@@ -1,15 +1,12 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import shadows from "@material-ui/core/styles/shadows";
-import { NONAME } from "dns";
 import useBreadcrumbs from 'use-react-router-breadcrumbs';
 import styles from "./Header.module.scss";
 
 import {
   Breadcrumb,
-  BreadcrumbItem,
   BreadcrumbLink,
 } from '@nature-ui/breadcrumb';
 
@@ -43,7 +40,6 @@ const Header = (props: Props) => {
 
 
   const classes = useStyles();
-  const userNamesById = { '1': 'John' };
 
   return (
     <>

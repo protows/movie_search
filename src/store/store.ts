@@ -6,7 +6,9 @@ import counterReducer from "./counter/counter.slice";
 import moviesReducer from "./movies/movies.slice";
 import loadingReducer from "./loading/loading.slice";
 import tvSeriesReducer from "./tvSeries/tvSeries.slice";
-
+import pagePaginationReducer from "./pagePagination/pagePagination.slice";
+import moviesElementReducer from "./moviesElement/moviesElement.slice";
+import tvSeriesElementReducer from "./tvSeriesElement/tvSeriesElement.slice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -16,6 +18,9 @@ export const store = configureStore({
     movies: moviesReducer,
     loading: loadingReducer,
     tvSeries: tvSeriesReducer,
+    pagePagination: pagePaginationReducer,
+    moviesElement: moviesElementReducer,
+    tvSeriesElement: tvSeriesElementReducer,
   },
   middleware: [...getDefaultMiddleware({ thunk: false }), sagaMiddleware],
 });

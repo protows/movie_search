@@ -8,7 +8,7 @@ import qs from "qs";
 
 interface Props { }
 
-const DogSearch = (props: Props) => {
+const TvSeriesSearch = (props: Props) => {
   const history = useHistory();
 
   const [searchText, setSearchText] = useState("");
@@ -19,7 +19,7 @@ const DogSearch = (props: Props) => {
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    history.push(`/dogs?search=${searchText}`);
+    history.push(`/tvSeries?search=${searchText}`);
   };
 
   const location = useLocation();
@@ -47,4 +47,4 @@ const DogSearch = (props: Props) => {
   );
 };
 
-export default DogSearch;
+export default TvSeriesSearch;

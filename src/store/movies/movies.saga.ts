@@ -37,6 +37,6 @@ export function* onFetchMoviesStart() {
   yield takeLatest(fetchMovies.type, onFetchMovies);
 }
 
-export default function* moviesSaga() {
+export default function* movieSaga() {
   yield all([call(onFetchMoviesStart)]);
 }

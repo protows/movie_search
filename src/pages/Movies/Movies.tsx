@@ -1,53 +1,124 @@
-import React, { useEffect, useState } from "react";
-import { Box, CircularProgress } from "@material-ui/core";
+import React, { useEffect, useState, useContext } from "react";
+import { CircularProgress, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { getAllBreeds } from "../../services/movies.service";
 import useStyles from "./Movies.styles";
-import styles from "./Dogs.module.scss";
-import { makeStyles } from '@material-ui/core/styles';
-import DogBreed from "../../components/MoviesBreed/MoviesBreed";
-import { Route, Switch } from "react-router";
-import DogSearch from "../../components/DogSearch/DogSearch";
-import qs from "qs";
 import { useLocation } from "react-router";
-
-
 import { selectMovies } from "../../store/movies/movies.selector";
 import { fetchMovies } from "../../store/movies/movies.slice";
 import { selectLoading } from "../../store/loading/loading.selector";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Button from '@material-ui/core/Button';
+import Pagination from '@material-ui/lab/Pagination';
 
+import { selectPagePagination } from "../../store/pagePagination/pagePagination.selector";
+import TodoContext from "../../contexts/pagePagination.context";
 
+import fetchPagePagination from "../../store/pagePagination/pagePagination.saga";
+
+import { selectMoviesElement } from "../../store/moviesElement/moviesElement.selector";
+import { fetchMoviesElement } from "../../store/moviesElement/moviesElement.slice";
+import MoviesSearch from "../../components/MoviesSearch/MoviesSearch";
+import qs from "qs";
+import { Search } from "@material-ui/icons";
+
+//store/moviesElement/movieElements.selector
 
 interface Props { }
 
 const Movies = (props: Props) => {
+
+
+
+
+  const { pageNumber, editPage } = useContext(TodoContext);
+
+
   const classes = useStyles();
-  const [breeds, setBreeds] = useState<string[]>([]);
-  const [searchText, setSearchText] = useState<string>("");
   const location = useLocation();
 
   const dispatch = useAppDispatch();
   const movies = useAppSelector(selectMovies);
   const loading = useAppSelector(selectLoading);
 
+  const pagePagination = useAppSelector(selectPagePagination);
+
+  const moviesElement = useAppSelector(selectMoviesElement);
+
+  useEffect(() => {
+    dispatch(fetchMoviesElement());
+  }, []);
+
   useEffect(() => {
     dispatch(fetchMovies());
   }, []);
 
+  //const [page, setPage] = React.useState(1);
+  const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
+    console.log("wwwwwwwwwwwwwwwwwww event is " + page);
+
+    editPage(page);
+
+    // onClick={() => addHandler()}
+
+    //yield(fetchPagePagination);
+
+    //dispatch(fetchPagePagination());
+    // setPage(page);
+  };
+
+  // useEffect(() => {
+  //   console.log("wwwwwwwwwwwwwwwwwww event is " + pageNumber.pageNumber);
+
+  //   editPage({ pageNumber: 2 });
+  // }, []);
+
+  const [searchText, setSearchText] = useState<string>("");
+
+  useEffect(() => {
+    const searchParams = qs.parse(location.search.substr(1));
+    if (searchParams.search) {
+      console.log("searchParams.search", searchParams.search);
+      setSearchText(searchParams.search as string);
+    } else {
+      setSearchText("");
+    }
+  }, [location.search]);
+
   return (
     <>
+      <MoviesSearch />
       <div className={classes.breeds_table}>
         {loading[fetchMovies.type] === "PROGRESS" && <CircularProgress />}
         {loading[fetchMovies.type] === "SUCCESS" &&
-          movies.map((moviesItem) => (
-            < Link key={moviesItem} to={`/dogs/`} className={classes.link}>
-              <Button className={classes.root}> {moviesItem.title}</Button>;
+          pageNumber.pageNumber == 1 &&
+          moviesElement
+            .filter((moviesItem) => moviesItem.title_alternative.match(new RegExp(searchText, "gi")))
+            .map((moviesItem) =>
+              < Link key={moviesItem} to={`/movies/` + moviesItem.title_alternative} className={classes.link}>
+                <Button className={classes.root}> {moviesItem.title_alternative}</Button>;
+               </Link>
+            )}
+          -
+          {pageNumber.pageNumber == 2 &&
+          movies
+            .filter((moviesItem) => moviesItem.title_alternative.match(new RegExp(searchText, "gi")))
+            .map((moviesItem) => (
+              < Link key={moviesItem} to={`/movies/` + moviesItem.title_alternative} className={classes.link}>
+                <Button className={classes.root}> {moviesItem.title_alternative}</Button>;
+              </Link>
+            ))
 
-            </Link>
-          ))}
+        }
+
+
+
       </div>
+      <div className={classes.pagination}>
+        <Typography>Page Next Level : {pageNumber.pageNumber}</Typography>
+
+        <Pagination count={2} page={pageNumber.pageNumber} color="primary" onChange={handleChange} />
+      </div>
+
     </>
 
   );

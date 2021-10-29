@@ -2,12 +2,16 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from "./components/Header/Header";
 import TvSeries from "./pages/TvSeries/TvSeries";
-import Dogs from "./pages/Movies/Movies";
 import Home from "./pages/Home/Home";
-import { ThemeProvider, createTheme, withStyles } from '@material-ui/core';
+import { ThemeProvider, createTheme } from '@material-ui/core';
 import MoviesBreed from "./components/MoviesBreed/MoviesBreed";
 import { useLocation } from "react-router";
 import Movies from "./pages/Movies/Movies";
+
+import TvSeriesBreed from "./components/TvSeriesBreed/TvSeriesBreed";
+
+
+import { TodoProvider } from "./contexts/pagePagination.context";
 
 
 
@@ -29,7 +33,8 @@ function NoMatch() {
     <div>
       <h3>
         No match for <code>{location.pathname}</code>
-        <img src="./img/404.jpg" alt="lorem" />
+        {/* <img src="./img/404.jpg" alt="lorem" /> */}
+        <img src="../img/404.jpg" alt="lorem" />
       </h3>
     </div>
   );
@@ -37,28 +42,71 @@ function NoMatch() {
 
 function App() {
   return (
-    <ThemeProvider theme={theme} >
-      <Router>
-        <div className="App">
-          <Header />
-          <Switch>
-            <Route exact path="/movies" component={Movies} />
-            <Route path="/movies/:breed">
-              <MoviesBreed />
-            </Route>
-            <Route exact path="/tvSeries">
-              <TvSeries />
-            </Route>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route path="*">
-              <NoMatch />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    </ThemeProvider >
+
+    <>
+
+
+      <ThemeProvider theme={theme} >
+
+        <Router>
+          <div className="App">
+
+            <Header />
+
+
+
+
+            <Switch>
+              <TodoProvider>
+                <Route exact path="/tvSeries">
+                  <TvSeries />
+                </Route>
+
+
+
+                {/* <TodoProvider>
+                <Movies />
+              </TodoProvider> */}
+
+                <Route exact path="/movies" component={Movies} />
+
+                <Route path="/movies/:breed">
+                  <MoviesBreed />
+                </Route>
+
+                <Route path="/tvSeries/:breed">
+                  <TvSeriesBreed />
+                </Route>
+
+                <Route exact path="/">
+                  <Home />
+                </Route>
+
+
+
+              </TodoProvider>
+
+
+              <Route path="*">
+                <NoMatch />
+              </Route>
+
+
+
+
+
+
+            </Switch>
+
+          </div>
+
+
+        </Router>
+
+
+      </ThemeProvider >
+
+    </>
   );
 }
 
