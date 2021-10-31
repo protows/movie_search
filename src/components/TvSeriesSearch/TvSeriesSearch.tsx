@@ -4,8 +4,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import { useHistory, useLocation } from "react-router";
 import qs from "qs";
 
-
-
 interface Props { }
 
 const TvSeriesSearch = (props: Props) => {

@@ -64,7 +64,7 @@ const TvSeries = (props: Props) => {
       <div className={classes.breeds_table}>
         {loading[fetchTvSeries.type] === "PROGRESS" && <CircularProgress />}
         {loading[fetchTvSeries.type] === "SUCCESS" &&
-          pageNumberTvSeries.pageNumberTvSeries == 1 &&
+          pageNumberTvSeries.pageNumberTvSeries === 1 &&
           tvSeries
             .filter((tvSeriesItem) => tvSeriesItem.title_alternative.match(new RegExp(searchText, "gi")))
             .map(tvSeriesItem => (
@@ -76,7 +76,7 @@ const TvSeries = (props: Props) => {
 
             ))}
           -
-        {pageNumberTvSeries.pageNumberTvSeries == 2 &&
+        {pageNumberTvSeries.pageNumberTvSeries === 2 &&
           tvSeriesElement
             .filter((tvSeriesItem) => tvSeriesItem.title_alternative.match(new RegExp(searchText, "gi")))
             .map(tvSeriesItem => (

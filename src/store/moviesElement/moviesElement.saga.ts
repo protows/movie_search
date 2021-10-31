@@ -14,14 +14,6 @@ import {
 } from "../loading/loading.slice";
 import { fetchMoviesElement, fetchMoviesElementSuccess } from "./moviesElement.slice";
 
-import { useHistory, useLocation } from "react-router";
-import React, { useState, useEffect, useContext } from "react";
-import qs from "qs";
-import TodoContext from "../../contexts/pagePagination.context";
-
-
-interface Props { }
-
 export function* onFetchMoviesElement() {
 
     yield put(startFetching(fetchMoviesElement.type));

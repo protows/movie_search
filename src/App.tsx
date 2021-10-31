@@ -9,11 +9,8 @@ import { useLocation } from "react-router";
 import Movies from "./pages/Movies/Movies";
 
 import TvSeriesBreed from "./components/TvSeriesBreed/TvSeriesBreed";
-
-
 import { TodoProvider } from "./contexts/pagePagination.context";
-
-
+import MyFavourite from "./components/MyFavourite/MyFavourite";
 
 const theme = createTheme({
   palette: {
@@ -42,31 +39,16 @@ function NoMatch() {
 
 function App() {
   return (
-
     <>
-
-
       <ThemeProvider theme={theme} >
-
         <Router>
           <div className="App">
-
             <Header />
-
-
-
-
             <Switch>
               <TodoProvider>
                 <Route exact path="/tvSeries">
                   <TvSeries />
                 </Route>
-
-
-
-                {/* <TodoProvider>
-                <Movies />
-              </TodoProvider> */}
 
                 <Route exact path="/movies" component={Movies} />
 
@@ -78,34 +60,23 @@ function App() {
                   <TvSeriesBreed />
                 </Route>
 
+                <Route path="/myFavourite">
+                  <MyFavourite />
+                </Route>
+
                 <Route exact path="/">
                   <Home />
                 </Route>
 
-
-
               </TodoProvider>
-
-
               <Route path="*">
                 <NoMatch />
               </Route>
 
-
-
-
-
-
             </Switch>
-
           </div>
-
-
         </Router>
-
-
       </ThemeProvider >
-
     </>
   );
 }

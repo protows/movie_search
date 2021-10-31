@@ -10,16 +10,12 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Button from '@material-ui/core/Button';
 import Pagination from '@material-ui/lab/Pagination';
 
-import { selectPagePagination } from "../../store/pagePagination/pagePagination.selector";
 import TodoContext from "../../contexts/pagePagination.context";
-
-import fetchPagePagination from "../../store/pagePagination/pagePagination.saga";
 
 import { selectMoviesElement } from "../../store/moviesElement/moviesElement.selector";
 import { fetchMoviesElement } from "../../store/moviesElement/moviesElement.slice";
 import MoviesSearch from "../../components/MoviesSearch/MoviesSearch";
 import qs from "qs";
-import { Search } from "@material-ui/icons";
 
 //store/moviesElement/movieElements.selector
 
@@ -40,8 +36,6 @@ const Movies = (props: Props) => {
   const movies = useAppSelector(selectMovies);
   const loading = useAppSelector(selectLoading);
 
-  const pagePagination = useAppSelector(selectPagePagination);
-
   const moviesElement = useAppSelector(selectMoviesElement);
 
   useEffect(() => {
@@ -52,32 +46,16 @@ const Movies = (props: Props) => {
     dispatch(fetchMovies());
   }, []);
 
-  //const [page, setPage] = React.useState(1);
   const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
-    console.log("wwwwwwwwwwwwwwwwwww event is " + page);
-
     editPage(page);
-
-    // onClick={() => addHandler()}
-
-    //yield(fetchPagePagination);
-
-    //dispatch(fetchPagePagination());
-    // setPage(page);
   };
 
-  // useEffect(() => {
-  //   console.log("wwwwwwwwwwwwwwwwwww event is " + pageNumber.pageNumber);
-
-  //   editPage({ pageNumber: 2 });
-  // }, []);
 
   const [searchText, setSearchText] = useState<string>("");
 
   useEffect(() => {
     const searchParams = qs.parse(location.search.substr(1));
     if (searchParams.search) {
-      console.log("searchParams.search", searchParams.search);
       setSearchText(searchParams.search as string);
     } else {
       setSearchText("");
@@ -90,7 +68,7 @@ const Movies = (props: Props) => {
       <div className={classes.breeds_table}>
         {loading[fetchMovies.type] === "PROGRESS" && <CircularProgress />}
         {loading[fetchMovies.type] === "SUCCESS" &&
-          pageNumber.pageNumber == 1 &&
+          pageNumber.pageNumber === 1 &&
           moviesElement
             .filter((moviesItem) => moviesItem.title_alternative.match(new RegExp(searchText, "gi")))
             .map((moviesItem) =>
@@ -99,7 +77,7 @@ const Movies = (props: Props) => {
                </Link>
             )}
           -
-          {pageNumber.pageNumber == 2 &&
+          {pageNumber.pageNumber === 2 &&
           movies
             .filter((moviesItem) => moviesItem.title_alternative.match(new RegExp(searchText, "gi")))
             .map((moviesItem) => (
@@ -109,8 +87,6 @@ const Movies = (props: Props) => {
             ))
 
         }
-
-
 
       </div>
       <div className={classes.pagination}>

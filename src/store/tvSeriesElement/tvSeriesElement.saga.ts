@@ -19,15 +19,9 @@ export function* onFetchTvSeriesElement() {
 
   try {
     const res: SagaReturnType<typeof getTvSeriesElementData> = yield getTvSeriesElementData();
-    // const cats = Object.keys(res.data[0]);
-
-    // console.log(res.data);
-    // const cats = res.data.map((cat: any) => { return cat.name });
-    //const cats = res.data;
 
     const resTvSeriesElement = res.data['tv-series'];
     console.log("breeds resTvSeries is ", resTvSeriesElement['tv-series']);
-    //['prop-3']
 
     yield put(fetchTvSeriesElementSuccess(resTvSeriesElement));
     yield put(successFetching(fetchTvSeriesElement.type));
