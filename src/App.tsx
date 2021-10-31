@@ -7,10 +7,8 @@ import { ThemeProvider, createTheme } from '@material-ui/core';
 import MoviesBreed from "./components/MoviesBreed/MoviesBreed";
 import { useLocation } from "react-router";
 import Movies from "./pages/Movies/Movies";
-
 import TvSeriesBreed from "./components/TvSeriesBreed/TvSeriesBreed";
 import { TodoProvider } from "./contexts/pagePagination.context";
-import MyFavourite from "./components/MyFavourite/MyFavourite";
 
 const theme = createTheme({
   palette: {
@@ -58,10 +56,6 @@ function App() {
 
                 <Route path="/tvSeries/:breed">
                   <TvSeriesBreed />
-                </Route>
-
-                <Route path="/myFavourite">
-                  <MyFavourite />
                 </Route>
 
                 <Route exact path="/">

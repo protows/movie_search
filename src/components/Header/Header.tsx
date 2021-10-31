@@ -57,9 +57,7 @@ const Header = (props: Props) => {
         <NavLink className={classes.link} to="/tvSeries">
           TvSeries
       </NavLink>
-        <NavLink className={classes.link} to="/myFavourite ">
-          My favourite
-      </NavLink>
+
       </Card>
 
       <div className={styles.breadcrumbs_row}>
