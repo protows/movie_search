@@ -24,7 +24,7 @@ const MoviesBreed = (props: Props) => {
 
   const { breed } = useParams<Params>();
   const [moviesItemData, setMoviesItemData] = useState<any>(Array);
-  const [images, setImages] = useState<string>("");
+  const [toggleFavourite, setToggleFavourite] = useState<string>("");
   const classes = useStyles();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const MoviesBreed = (props: Props) => {
 
   const addFavourite = (moviesTitle: string) => {
     dispatch(increment([moviesTitle]));
-    setImages("готово!")
+    setToggleFavourite("готово!")
   }
 
   return (
@@ -76,7 +76,7 @@ const MoviesBreed = (props: Props) => {
       <Button variant="contained" color="primary" onClick={() => addFavourite(moviesItemData.title)}>
         Добавить в избранное
     </Button>
-      {images}
+      {toggleFavourite}
 
     </>
   );

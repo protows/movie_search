@@ -10,6 +10,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import useStyles from "../MoviesBreed/MoviesBreed.styles";
+import { useAppDispatch } from "../../store/hooks";
+import { Button } from "@material-ui/core";
+import { increment } from "../../store/favourite/favourite.slice";
+
 
 interface Props { }
 
@@ -18,6 +22,9 @@ interface Params {
 }
 
 const TvSeriesBreed = (props: Props) => {
+    const dispatch = useAppDispatch();
+    const [toggleFavourite, setToggleFavourite] = useState<string>("");
+
     const { breed } = useParams<Params>();
     const [moviesItemData, setMoviesItemData] = useState<any>(Array);
     const classes = useStyles();
@@ -31,6 +38,11 @@ const TvSeriesBreed = (props: Props) => {
                 console.error(err);
             });
     }, []);
+
+    const addFavourite = (moviesTitle: string) => {
+        dispatch(increment([moviesTitle]));
+        setToggleFavourite("готово!")
+    }
 
     return (
         <>
@@ -63,6 +75,10 @@ const TvSeriesBreed = (props: Props) => {
                     </Typography>
                 </CardContent>
             </Card>
+            <Button variant="contained" color="primary" onClick={() => addFavourite(moviesItemData.title)}>
+                Добавить в избранное
+    </Button>
+            {toggleFavourite}
         </>
     );
 };
