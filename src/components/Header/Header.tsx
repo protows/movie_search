@@ -57,6 +57,9 @@ const Header = (props: Props) => {
         <NavLink className={classes.link} to="/tvSeries">
           TvSeries
       </NavLink>
+        <NavLink className={classes.link} to="/favourite">
+          Favourite
+      </NavLink>
 
       </Card>
 
@@ -66,8 +69,8 @@ const Header = (props: Props) => {
             <span key={match.url}>
               {/* <BreadcrumbItem> */}
               /
-              <BreadcrumbLink >
-                {/* <BreadcrumbLink href={match.url}> */}
+              {/* <BreadcrumbLink > */}
+              <BreadcrumbLink href={match.url}>
 
                 {breadcrumb}
               </BreadcrumbLink>

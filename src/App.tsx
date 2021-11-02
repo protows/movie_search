@@ -9,6 +9,8 @@ import { useLocation } from "react-router";
 import Movies from "./pages/Movies/Movies";
 import TvSeriesBreed from "./components/TvSeriesBreed/TvSeriesBreed";
 import { TodoProvider } from "./contexts/pagePagination.context";
+import FavouriteBreed from "./components/FavouriteBreed/FavouriteBreed";
+
 
 const theme = createTheme({
   palette: {
@@ -57,6 +59,10 @@ function App() {
                 <Route path="/tvSeries/:breed">
                   <TvSeriesBreed />
                 </Route>
+                <Route path="/favourite">
+                  <FavouriteBreed />
+                </Route>
+
 
                 <Route exact path="/">
                   <Home />
