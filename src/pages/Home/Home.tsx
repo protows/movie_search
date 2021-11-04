@@ -1,29 +1,66 @@
-// import { selectFavourite } from "../../store/favourite/favourite.selector";
-// import { useAppSelector } from "../../store/hooks";
-import useStyles from "./Home.styles";
+import React, { useEffect, useState } from "react";
+import { getRandomMainPage } from "../../services/mainPage.service";
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import useStyles from "../../components/MovieElement/MovieElement.styles";
 
 interface Props { }
 
 const Home = (props: Props) => {
-
   const classes = useStyles();
-  // const itemFavourite = useAppSelector(selectFavourite);
+  const [listRandomFilms, setListRandomFilms] = useState<any>(Array);
+
+  useEffect(() => {
+    getRandomMainPage()
+      .then((res) => {
+        setListRandomFilms(res.data.resRandomArray);
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+  }, []);
 
   return (
     <>
-      <div className={classes.mainText}>
-        КиноПо́иск» — крупнейший русскоязычный интернет-сервис о кино. С 2018 года также доступен онлайн-кинотеатр с несколькими тысячами фильмов, сериалов,
-      </div>
-      {/* <div className={classes.favourite}>Список избранных:
-        {itemFavourite.length === 0 && <p> Пусто</p>}
-        <div className={classes.favouriteItems}>
-          {itemFavourite
-            .map((moviesItem) =>
-              moviesItem + ", "
-            )}
-        </div>
+      <div className={classes.list_table}>
+        {listRandomFilms.map((listRandomFilmsItem: any) =>
+          <div key={listRandomFilmsItem.id} >
+            < Card className={classes.root}>
+              <CardHeader
+                avatar={
+                  <Avatar aria-label="recipe" className={classes.avatar}>
+                    R
+          </Avatar>
+                }
+                action={
+                  <IconButton aria-label="settings">
+                    <MoreVertIcon />
+                  </IconButton>
+                }
+                title={listRandomFilmsItem.title}
+                subheader="September 14, 2016"
+              />
+              <CardMedia
+                className={classes.media}
+                image={"http:" + listRandomFilmsItem.poster}
+                title="Paella dish"
+              />
+              <CardContent>
+                <Typography variant="body2" color="textSecondary" component="p">
 
-      </div> */}
+                  {listRandomFilmsItem.description}
+                </Typography>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+      </div>
     </>
   )
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { getCurrentPage } from "../../services/get_items.service";
+import { getTvSeriesTitle } from "../../services/tvSeries.service";
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -9,28 +9,26 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import useStyles from "../MoviesBreed/MoviesBreed.styles";
+import useStyles from "../MovieElement/MovieElement.styles";
 import { useAppDispatch } from "../../store/hooks";
 import { Button } from "@material-ui/core";
-import { increment } from "../../store/favourite/favourite.slice";
-
+import { favouriteDispatch } from "../../store/favourite/favourite.slice";
 
 interface Props { }
 
 interface Params {
-    breed: string;
+    paramsTvSeries: string;
 }
 
-const TvSeriesBreed = (props: Props) => {
+const TvSeriesElement = (props: Props) => {
     const dispatch = useAppDispatch();
     const [toggleFavourite, setToggleFavourite] = useState<string>("");
-
-    const { breed } = useParams<Params>();
+    const { paramsTvSeries } = useParams<Params>();
     const [moviesItemData, setMoviesItemData] = useState<any>(Array);
     const classes = useStyles();
 
     useEffect(() => {
-        getCurrentPage(breed)
+        getTvSeriesTitle(paramsTvSeries)
             .then((res) => {
                 setMoviesItemData(res.data);
             })
@@ -39,13 +37,14 @@ const TvSeriesBreed = (props: Props) => {
             });
     }, []);
 
-    const addFavourite = (moviesTitle: string) => {
-        dispatch(increment([moviesTitle]));
+    const addFavourite = (tvSeriesTitle: string) => {
+        dispatch(favouriteDispatch([tvSeriesTitle]));
         setToggleFavourite("готово!")
     }
 
     return (
         <>
+            <span key={moviesItemData.id}></span>
             <Card className={classes.root}>
                 <CardHeader
                     avatar={
@@ -63,9 +62,7 @@ const TvSeriesBreed = (props: Props) => {
                 />
                 <CardMedia
                     className={classes.media}
-                    // image="/static/images/cards/paella.jpg"
-                    image={"https://" + moviesItemData.poster}
-                    // image="https://images.kinopoisk.cloud/posters/1003587.jpg"
+                    image={"http:" + moviesItemData.poster}
 
                     title="Paella dish"
                 />
@@ -83,4 +80,4 @@ const TvSeriesBreed = (props: Props) => {
     );
 };
 
-export default TvSeriesBreed;
+export default TvSeriesElement;

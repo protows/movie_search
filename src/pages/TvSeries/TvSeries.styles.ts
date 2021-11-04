@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     paddingTop: "12px"
   },
-  breeds_table: {
+  component_table: {
     maxHeight: "60vh",
     display: "flex",
     flexDirection: "column",
@@ -34,15 +34,6 @@ const useStyles = makeStyles((theme) => ({
   pagination: {
     marginTop: theme.spacing(2),
   },
-
-  // li: {
-  //   // webkitColumnCount: 3,
-  //   // mozColumnCount: 3,
-  //   columnCount: 3,
-  // }
-
-
-
 }));
 
 export default useStyles;

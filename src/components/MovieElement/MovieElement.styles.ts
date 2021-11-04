@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
+    margin: "20px",
   },
   media: {
     height: 0,
@@ -20,10 +21,14 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: '#f44336'
-
   },
-
-
+  list_table: {
+    marginTop: theme.spacing(2),
+    maxHeight: "60vh",
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
 }));
 
 export default useStyles;

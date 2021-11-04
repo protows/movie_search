@@ -1,55 +1,36 @@
-import React, { useEffect, useState, useContext } from "react";
-import { CircularProgress, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import useStyles from "./Movies.styles";
 import { useLocation } from "react-router";
-import { selectMovies } from "../../store/movies/movies.selector";
-import { fetchMovies } from "../../store/movies/movies.slice";
-import { selectLoading } from "../../store/loading/loading.selector";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Button from '@material-ui/core/Button';
 import Pagination from '@material-ui/lab/Pagination';
-
-import TodoContext from "../../contexts/pagePagination.context";
-
-import { selectMoviesElement } from "../../store/moviesElement/moviesElement.selector";
-import { fetchMoviesElement } from "../../store/moviesElement/moviesElement.slice";
 import MoviesSearch from "../../components/MoviesSearch/MoviesSearch";
 import qs from "qs";
-
-//store/moviesElement/movieElements.selector
+import { getMoviePage } from "../../services/movies.service";
 
 interface Props { }
 
+export interface IPageNumber {
+  pageNumber: number;
+}
+
 const Movies = (props: Props) => {
-
-
-
-
-  const { pageNumber, editPage } = useContext(TodoContext);
-
-
+  const [pageNumber, editPage] = useState<IPageNumber>({ pageNumber: 0 });
   const classes = useStyles();
   const location = useLocation();
-
-  const dispatch = useAppDispatch();
-  const movies = useAppSelector(selectMovies);
-  const loading = useAppSelector(selectLoading);
-
-  const moviesElement = useAppSelector(selectMoviesElement);
-
-  useEffect(() => {
-    dispatch(fetchMoviesElement());
-  }, []);
-
-  useEffect(() => {
-    dispatch(fetchMovies());
-  }, []);
+  const [listMovies, setListMovies] = useState<any>(Array);
 
   const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
-    editPage(page);
+    editPage({ pageNumber: page });
+    getMoviePage(page)
+      .then((res) => {
+        setListMovies(res.data.movies);
+      })
+      .catch((err) => {
+        console.log(err)
+      });
   };
-
 
   const [searchText, setSearchText] = useState<string>("");
 
@@ -62,41 +43,33 @@ const Movies = (props: Props) => {
     }
   }, [location.search]);
 
+  useEffect(() => {
+    getMoviePage(1)
+      .then((res) => {
+        setListMovies(res.data.movies);
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+  }, []);
+
   return (
     <>
       <MoviesSearch />
-      <div className={classes.breeds_table}>
-        {loading[fetchMovies.type] === "PROGRESS" && <CircularProgress />}
-        {loading[fetchMovies.type] === "SUCCESS" &&
-          pageNumber.pageNumber === 1 &&
-          moviesElement
-            .filter((moviesItem) => moviesItem.title_alternative.match(new RegExp(searchText, "gi")))
-            .map((moviesItem) =>
-              < Link key={moviesItem} to={`/movies/` + moviesItem.title_alternative} className={classes.link}>
-                <Button className={classes.root}> {moviesItem.title_alternative}</Button>;
-               </Link>
-            )}
-          -
-          {pageNumber.pageNumber === 2 &&
-          movies
-            .filter((moviesItem) => moviesItem.title_alternative.match(new RegExp(searchText, "gi")))
-            .map((moviesItem) => (
-              < Link key={moviesItem} to={`/movies/` + moviesItem.title_alternative} className={classes.link}>
-                <Button className={classes.root}> {moviesItem.title_alternative}</Button>;
-              </Link>
-            ))
-
-        }
-
+      <div className={classes.component_table}>
+        {listMovies
+          .filter((moviesItem: any) => moviesItem.title_alternative.match(new RegExp(searchText, "gi")))
+          .map((moviesItem: any) =>
+            < Link key={moviesItem.id} to={`/movie/` + moviesItem.title_alternative} className={classes.link}>
+              <Button className={classes.root}> {moviesItem.title_alternative}</Button>
+            </Link>
+          )}
       </div>
       <div className={classes.pagination}>
         <Typography>Page Next Level : {pageNumber.pageNumber}</Typography>
-
         <Pagination count={2} page={pageNumber.pageNumber} color="primary" onChange={handleChange} />
       </div>
-
     </>
-
   );
 };
 

@@ -16,13 +16,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     paddingTop: "12px"
   },
-  breeds_table: {
+  component_table: {
     marginTop: theme.spacing(2),
     maxHeight: "60vh",
     display: "flex",
     flexDirection: "column",
     flexWrap: "wrap",
   },
+
   root: {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
     border: 0,
@@ -33,17 +34,10 @@ const useStyles = makeStyles((theme) => ({
     padding: '0 30px',
   },
 
+
   pagination: {
     marginTop: theme.spacing(2),
   },
-
-  // li: {
-  //   // webkitColumnCount: 3,
-  //   // mozColumnCount: 3,
-  //   columnCount: 3,
-  // }
-
-
 }));
 
 export default useStyles;

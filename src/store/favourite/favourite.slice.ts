@@ -12,9 +12,7 @@ export const favouriteSlice = createSlice({
   name: "favourite",
   initialState,
   reducers: {
-    increment: (state: FavouriteState = initialState, action: PayloadAction<[any]>) => {
-      console.log("...state ", state);
-      console.log("payload ", action.payload);
+    favouriteDispatch: (state: FavouriteState = initialState, action: PayloadAction<[any]>) => {
       return {
         ...state, value: [...state.value, action.payload]
       }
@@ -23,6 +21,6 @@ export const favouriteSlice = createSlice({
   },
 });
 
-export const { increment } = favouriteSlice.actions;
+export const { favouriteDispatch } = favouriteSlice.actions;
 
 export default favouriteSlice.reducer;
