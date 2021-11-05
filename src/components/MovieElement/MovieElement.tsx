@@ -42,7 +42,7 @@ const MovieElement = (props: Props) => {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [paramsElement]);
 
   const addFavourite = (moviesTitle: string) => {
     dispatch(favouriteAdd([moviesTitle]));
@@ -61,7 +61,7 @@ const MovieElement = (props: Props) => {
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
-              <img src={"http:" + moviesItemData.poster} alt="Some image in MovieElement" />
+              <img src={"http:" + moviesItemData.poster} alt="img" />
             </Avatar>
           }
           action={
@@ -90,11 +90,17 @@ const MovieElement = (props: Props) => {
 
 
       {itemFavourite
-        .map((moviesItem) =>
-          moviesItem !== 'Жил-был пёс' &&
-          < Button variant="contained" color="primary" onClick={() => removeFavourite(moviesItemData.title)}>
-            Удалить из избранного
-      </Button>
+        .map((moviesItem, i) => {
+          return (
+            <div key={i}>
+              {moviesItem !== 'Жил-был пёс' &&
+                < Button variant="contained" color="primary" onClick={() => removeFavourite(moviesItemData.title)}>
+                  Удалить из избранного
+               </Button>
+              }
+            </div>
+          )
+        }
         )
       }
       { toggleFavourite}

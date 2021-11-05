@@ -35,7 +35,8 @@ const Home = (props: Props) => {
               <CardHeader
                 avatar={
                   <Avatar aria-label="recipe" className={classes.avatar}>
-                    <img src={"http:" + listRandomFilmsItem.poster} alt="Some image in Main page" />
+                    <img src={"http:" + listRandomFilmsItem.poster} alt="img" />
+
                   </Avatar>
                 }
                 action={

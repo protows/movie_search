@@ -42,7 +42,7 @@ const TvSeriesElement = (props: Props) => {
             .catch((err) => {
                 console.error(err);
             });
-    }, []);
+    }, [paramsTvSeries]);
 
     const addFavourite = (tvSeriesTitle: string) => {
         dispatch(favouriteAdd([tvSeriesTitle]));
@@ -61,7 +61,7 @@ const TvSeriesElement = (props: Props) => {
                 <CardHeader
                     avatar={
                         <Avatar aria-label="recipe" className={classes.avatar}>
-                            <img src={"http:" + moviesItemData.poster} alt="Some image in TvSeriesElement" />
+                            <img src={"http:" + moviesItemData.poster} alt="img" />
                         </Avatar>
                     }
                     action={
@@ -89,14 +89,20 @@ const TvSeriesElement = (props: Props) => {
     </Button>
 
             {itemFavourite
-                .map((moviesItem) =>
-                    moviesItem !== 'Жил-был пёс' &&
-                    < Button variant="contained" color="primary" onClick={() => removeFavourite(moviesItemData.title)}>
-                        Удалить из избранного
-      </Button>
+                .map((moviesItem, i) => {
+                    return (
+                        <div key={i}>
+                            {moviesItem !== 'Жил-был пёс' &&
+
+                                < Button variant="contained" color="primary" onClick={() => removeFavourite(moviesItemData.title)}>
+                                    Удалить из избранного
+                                    </Button>
+                            }</div>
+                    )
+                }
                 )
             }
-            {toggleFavourite}
+            { toggleFavourite}
         </>
     );
 };
