@@ -1,4 +1,4 @@
-import useStyles from "../../pages/Home/Home.styles";
+import useStyles from "../Home/Home.styles";
 import { selectFavourite } from "../../store/favourite/favourite.selector";
 import { useAppSelector } from "../../store/hooks";
 

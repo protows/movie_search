@@ -4,7 +4,7 @@ import Header from "./components/Header/Header";
 import Home from "./pages/Home/Home";
 import Movies from "./pages/Movies/Movies";
 import MovieElement from "./components/MovieElement/MovieElement";
-import FavouriteComponent from "./components/FavouriteComponent/FavouriteComponent";
+import Favourite from "./pages/Favourite/Favourite";
 import TvSeries from "./pages/TvSeries/TvSeries";
 import TvSeriesElement from "./components/TvSeriesElement/TvSeriesElement";
 import NoMatch from "./components/NoMatch/NoMatch";
@@ -27,7 +27,7 @@ function App() {
               <TvSeriesElement />
             </Route>
             <Route path="/favourite">
-              <FavouriteComponent />
+              <Favourite />
             </Route>
             <Route exact path="/">
               <Home />

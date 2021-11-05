@@ -35,8 +35,8 @@ const Home = (props: Props) => {
               <CardHeader
                 avatar={
                   <Avatar aria-label="recipe" className={classes.avatar}>
-                    R
-          </Avatar>
+                    <img src={"http:" + listRandomFilmsItem.poster} alt="Some image in Main page" />
+                  </Avatar>
                 }
                 action={
                   <IconButton aria-label="settings">
@@ -44,7 +44,7 @@ const Home = (props: Props) => {
                   </IconButton>
                 }
                 title={listRandomFilmsItem.title}
-                subheader="September 14, 2016"
+                subheader={listRandomFilmsItem.year}
               />
               <CardMedia
                 className={classes.media}
@@ -53,7 +53,6 @@ const Home = (props: Props) => {
               />
               <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-
                   {listRandomFilmsItem.description}
                 </Typography>
               </CardContent>

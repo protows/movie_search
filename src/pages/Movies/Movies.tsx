@@ -11,28 +11,22 @@ import { getMoviePage } from "../../services/movies.service";
 
 interface Props { }
 
-export interface IPageNumber {
-  pageNumber: number;
-}
-
 const Movies = (props: Props) => {
-  const [pageNumber, editPage] = useState<IPageNumber>({ pageNumber: 0 });
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const classes = useStyles();
   const location = useLocation();
   const [listMovies, setListMovies] = useState<any>(Array);
+  const [searchText, setSearchText] = useState<string>("");
 
-  const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
-    editPage({ pageNumber: page });
-    getMoviePage(page)
+  useEffect(() => {
+    getMoviePage(pageNumber)
       .then((res) => {
         setListMovies(res.data.movies);
       })
       .catch((err) => {
         console.log(err)
       });
-  };
-
-  const [searchText, setSearchText] = useState<string>("");
+  }, [pageNumber]);
 
   useEffect(() => {
     const searchParams = qs.parse(location.search.substr(1));
@@ -43,15 +37,9 @@ const Movies = (props: Props) => {
     }
   }, [location.search]);
 
-  useEffect(() => {
-    getMoviePage(1)
-      .then((res) => {
-        setListMovies(res.data.movies);
-      })
-      .catch((err) => {
-        console.log(err)
-      });
-  }, []);
+  const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
+    setPageNumber(page);
+  };
 
   return (
     <>
@@ -66,8 +54,8 @@ const Movies = (props: Props) => {
           )}
       </div>
       <div className={classes.pagination}>
-        <Typography>Page Next Level : {pageNumber.pageNumber}</Typography>
-        <Pagination count={2} page={pageNumber.pageNumber} color="primary" onChange={handleChange} />
+        <Typography>Page Next Level : {pageNumber}</Typography>
+        <Pagination count={2} page={pageNumber} color="primary" onChange={handleChange} />
       </div>
     </>
   );

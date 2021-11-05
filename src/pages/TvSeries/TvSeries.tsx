@@ -9,40 +9,24 @@ import { useLocation } from "react-router";
 import { getTvSeriesPage } from "../../services/tvSeries.service";
 import TvSeriesSearch from "../../components/TvSeriesSearch/TvSeriesSearch";
 
-export interface IPageNumber {
-  pageNumber: number;
-}
 interface Props { }
 
 const TvSeries = (props: Props) => {
-  const [pageNumber, editPage] = useState<IPageNumber>({ pageNumber: 0 });
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const classes = useStyles();
   const location = useLocation();
   const [listTvSeries, setListTvSeries] = useState<any>(Array);
+  const [searchText, setSearchText] = useState<string>("");
 
   useEffect(() => {
-    getTvSeriesPage(1)
+    getTvSeriesPage(pageNumber)
       .then((res) => {
         setListTvSeries(res.data['tv-series']);
       })
       .catch((err) => {
         console.log(err)
       });
-  }, []);
-
-  const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
-    editPage({ pageNumber: page });
-
-    getTvSeriesPage(page)
-      .then((res) => {
-        setListTvSeries(res.data['tv-series']);
-      })
-      .catch((err) => {
-        console.log(err)
-      });
-  };
-
-  const [searchText, setSearchText] = useState<string>("");
+  }, [pageNumber]);
 
   useEffect(() => {
     const searchParams = qs.parse(location.search.substr(1));
@@ -52,6 +36,10 @@ const TvSeries = (props: Props) => {
       setSearchText("");
     }
   }, [location.search]);
+
+  const handleChange = (event: React.ChangeEvent<unknown>, page: number) => {
+    setPageNumber(page);
+  };
 
   return (
     <>
@@ -66,9 +54,9 @@ const TvSeries = (props: Props) => {
           ))}
       </div>
       <div className={classes.pagination}>
-        <Typography>Page Next Level : {pageNumber.pageNumber}</Typography>
+        <Typography>Page Next Level : {pageNumber}</Typography>
 
-        <Pagination count={2} page={pageNumber.pageNumber} color="primary" onChange={handleChange} />
+        <Pagination count={2} page={pageNumber} color="primary" onChange={handleChange} />
       </div>
     </>
   );

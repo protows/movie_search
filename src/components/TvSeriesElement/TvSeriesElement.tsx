@@ -12,7 +12,12 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import useStyles from "../MovieElement/MovieElement.styles";
 import { useAppDispatch } from "../../store/hooks";
 import { Button } from "@material-ui/core";
-import { favouriteDispatch } from "../../store/favourite/favourite.slice";
+import { IFilms } from "../../shared/IFilms";
+import { selectFavourite } from "../../store/favourite/favourite.selector";
+import { useAppSelector } from "../../store/hooks";
+import { favouriteAdd, favouriteRemove } from "../../store/favourite/favourite.slice";
+
+
 
 interface Props { }
 
@@ -24,8 +29,10 @@ const TvSeriesElement = (props: Props) => {
     const dispatch = useAppDispatch();
     const [toggleFavourite, setToggleFavourite] = useState<string>("");
     const { paramsTvSeries } = useParams<Params>();
-    const [moviesItemData, setMoviesItemData] = useState<any>(Array);
+    const [moviesItemData, setMoviesItemData] = useState<IFilms>(Object);
     const classes = useStyles();
+    const itemFavourite = useAppSelector(selectFavourite);
+
 
     useEffect(() => {
         getTvSeriesTitle(paramsTvSeries)
@@ -38,7 +45,12 @@ const TvSeriesElement = (props: Props) => {
     }, []);
 
     const addFavourite = (tvSeriesTitle: string) => {
-        dispatch(favouriteDispatch([tvSeriesTitle]));
+        dispatch(favouriteAdd([tvSeriesTitle]));
+        setToggleFavourite("готово!")
+    }
+
+    const removeFavourite = (moviesTitle: string) => {
+        dispatch(favouriteRemove([moviesTitle]));
         setToggleFavourite("готово!")
     }
 
@@ -49,8 +61,8 @@ const TvSeriesElement = (props: Props) => {
                 <CardHeader
                     avatar={
                         <Avatar aria-label="recipe" className={classes.avatar}>
-                            R
-                </Avatar>
+                            <img src={"http:" + moviesItemData.poster} alt="Some image in TvSeriesElement" />
+                        </Avatar>
                     }
                     action={
                         <IconButton aria-label="settings">
@@ -58,7 +70,7 @@ const TvSeriesElement = (props: Props) => {
                         </IconButton>
                     }
                     title={moviesItemData.title}
-                    subheader="September 14, 2016"
+                    subheader={moviesItemData.year}
                 />
                 <CardMedia
                     className={classes.media}
@@ -75,6 +87,15 @@ const TvSeriesElement = (props: Props) => {
             <Button variant="contained" color="primary" onClick={() => addFavourite(moviesItemData.title)}>
                 Добавить в избранное
     </Button>
+
+            {itemFavourite
+                .map((moviesItem) =>
+                    moviesItem !== 'Жил-был пёс' &&
+                    < Button variant="contained" color="primary" onClick={() => removeFavourite(moviesItemData.title)}>
+                        Удалить из избранного
+      </Button>
+                )
+            }
             {toggleFavourite}
         </>
     );
